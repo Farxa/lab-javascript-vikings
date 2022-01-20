@@ -65,32 +65,28 @@ class War {
     this.saxonArmy.push(saxon);
   }
 
+  genericAttack(attackingArmy, defendingArmy) {
+    const indexOfRandomAttacker = Math.floor(Math.random() * attackingArmy.length);
+    const indexOfRandomDefender = Math.floor(Math.random() * defendingArmy.length);
+
+    const randomAttacker = attackingArmy[indexOfRandomAttacker];
+    const randomDefender = defendingArmy[indexOfRandomDefender]
+
+    const message = randomDefender.receiveDamage(randomAttacker.strength)
+
+    if (randomDefender.health <= 0 ) {
+      defendingArmy.splice(indexOfRandomDefender, 1)
+    }
+    return message
+  }
+
   
   vikingAttack() {
-    const randomIndexV = Math.floor(Math.random() * this.vikingArmy.length);
-    const randomIndexS = Math.floor(Math.random() * this.saxonArmy.length);
-
-    const randomViking = this.vikingArmy[randomIndexV];
-    const randomSaxon = this.saxonArmy[randomIndexS];
-  
-    const message = randomSaxon.receiveDamage(randomViking.strength);
-      if (randomSaxon.health <= 0) {
-        this.saxonArmy.splice(randomIndexS, 1)
-      }
-      return message;
+    return this.genericAttack(this.vikingArmy, this.saxonArmy)
   }
 
   saxonAttack() {
-    const randomIndexV = Math.floor(Math.random() * this.vikingArmy.length);
-    const randomIndexS = Math.floor(Math.random() * this.saxonArmy.length);
-
-    const randomViking = this.vikingArmy[randomIndexV];
-    const randomSaxon = this.saxonArmy[randomIndexS];
-    const message = randomViking.receiveDamage(randomSaxon.strength);
-    if (randomViking.health <= 0) {
-      this.vikingArmy.splice(randomIndexV, 1)
-    }
-    return message;
+    return this.genericAttack(this.saxonArmy, this.vikingArmy)
   }
 
   showStatus() {
@@ -103,7 +99,6 @@ class War {
     }
   }
 }
-
 
 
 // The following is required to make unit tests work.
@@ -119,5 +114,4 @@ const saxon = new Saxon(50, 200);
 war.addViking(viking);
 war.addSaxon(saxon);
 war.saxonAttack();
-console.log(war.vikingArmy);
 
